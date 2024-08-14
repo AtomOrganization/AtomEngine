@@ -1,7 +1,10 @@
 -- Define the project
-set_project("Atom")
+set_project("atom_engine")
+set_version("0.0.1")
+set_license("MIT")
 set_languages("c++20")
-set_version("2.0.0")
+
+includes("xmake/**.lua")
 
 -- Define the target for building the DLL
 target("build_DLL")
@@ -10,4 +13,13 @@ target("build_DLL")
     add_files("src/Atom/*.cpp")
     add_includedirs("src/Atom/.")
     add_defines("ATOM_EXPORTS")
-    set_targetdir("src/dll")
+    set_targetdir("src/lib")
+
+-- Define the target for building the static library
+target("build_LIB")
+    set_filename("Atom.lib")
+    set_kind("static")
+    add_files("src/Atom/*.cpp")
+    add_includedirs("src/Atom/.")
+    add_defines("ATOM_EXPORTS")
+    set_targetdir("src/lib")

@@ -1,0 +1,39 @@
+name: macOS build
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest]
+        arch: [x86_64]
+        confs:
+        - { mode: debug, archive: yes }
+
+  runs-on: ${{ matrix.os }}
+
+  steps:
+    - name: Get current date as package key
+      id: cache_key
+      run: echo "key=$(date +'%W')" >> $GITHUB_OUTPUT
+      
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    # Install xmake
+    - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: branch@dev
+          actions-cache-folder: .xmake-cache-W${{ steps.cache_key.outputs.key }}
+ 
+    # Setup compilation mode and install project dependencies
+    - name: Configure xmake and install dependencies
+      run: xmake config --arch=${{ matrix.arch }} --mode=${{ matrix.confs.mode }} --static=${{ matrix.kind == 'static' && 'yes' || 'no' }} ${{ matrix.confs.config }} --ccache=n --ffmpeg=y --shadernodes=y --tests=y --unitybuild=y --yes
+    
+    # Build Engine
+    - name: Build Atom Engine
+      run: xmake --y

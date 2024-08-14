@@ -21,9 +21,12 @@ build
 
 .xmake/
 # TODO: remove when find a good way for hide personal info
-.vscode
 .DS_Store
 
 #dll
-src/dll
+src/lib/*.dll
+src/lib/*.lib
 build
+# remove .vscode folder except .vscode/settings.json
+.vscode/*
+!.vscode/settings.json
