@@ -36,4 +36,4 @@ jobs:
       
       # Build Engine
       - name: Build Atom Engine
-        run: xmake --y
+        run: xmake --yes
