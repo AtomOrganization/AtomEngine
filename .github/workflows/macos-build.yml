@@ -3,7 +3,7 @@ name: macOS build
 on:
   pull_request:
   push:
-
+permissions: write-all
 jobs:
   build:
     strategy:
