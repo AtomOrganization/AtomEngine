@@ -30,10 +30,22 @@ jobs:
           xmake-version: branch@dev
           actions-cache-folder: .xmake-cache-W${{ steps.cache_key.outputs.key }}
   
-      # Setup compilation mode and install project dependencies
-      #- name: Configure xmake and install dependencies
-      #  run: xmake config --arch=${{ matrix.arch }} 
-      
       # Build Engine
       - name: Build Atom Engine
         run: xmake --yes
+
+      - name: "Set PACKAGE_NAME variable"
+        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
+        run: echo "PACKAGE_NAME=macOS_${{ matrix.arch }}_${{ matrix.confs.mode }}.tar.gz" >> $GITHUB_ENV
+        shell: bash
+
+      # Nightly tags (for commits to main branch)
+      - name: Upload binaries to release (main)
+        uses: svenstaro/upload-release-action@v2
+        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.PACKAGE_NAME }}
+          asset_name: ${{ env.PACKAGE_NAME }}
+          tag: "0.0.1-nightly"
+          overwrite: true
