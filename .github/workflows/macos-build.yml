@@ -31,8 +31,8 @@ jobs:
           actions-cache-folder: .xmake-cache-W${{ steps.cache_key.outputs.key }}
   
       # Setup compilation mode and install project dependencies
-      - name: Configure xmake and install dependencies
-        run: xmake config --arch=${{ matrix.arch }} --mode=${{ matrix.confs.mode }} --static=${{ matrix.kind == 'static' && 'yes' || 'no' }} ${{ matrix.confs.config }} --ccache=n --ffmpeg=y --shadernodes=y --tests=y --unitybuild=y --yes
+      #- name: Configure xmake and install dependencies
+      #  run: xmake config --arch=${{ matrix.arch }} 
       
       # Build Engine
       - name: Build Atom Engine
