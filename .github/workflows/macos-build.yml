@@ -15,7 +15,6 @@ jobs:
         - { mode: debug, archive: yes }
 
     runs-on: ${{ matrix.os }}
-
     steps:
       - name: Get current date as package key
         id: cache_key
