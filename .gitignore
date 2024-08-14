@@ -25,4 +25,5 @@ build
 .DS_Store
 
 #dll
-dll/
+src/dll
+build
