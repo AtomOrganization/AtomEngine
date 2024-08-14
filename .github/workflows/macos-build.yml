@@ -43,7 +43,7 @@ jobs:
         if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
         run: echo "PACKAGE_NAME=atom_engine_macOS_${{ matrix.arch }}_${{ matrix.confs.mode }}_assets.tar.gz" >> $GITHUB_ENV
         shell: bash
-        
+
       # Nightly tags (for commits to main branch)
       - name: Upload binaries to release (main)
         uses: svenstaro/upload-release-action@v2
@@ -51,6 +51,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ env.PACKAGE_NAME }}
-          asset_name: ${{ env.ASSETS_PACKAGE_NAME }}
+          file_glob: true
           tag: "0.0.0-nightly"
           overwrite: true
