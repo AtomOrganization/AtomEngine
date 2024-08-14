@@ -30,3 +30,5 @@ build
 # remove .vscode folder except .vscode/settings.json
 .vscode/*
 !.vscode/settings.json
+
+package

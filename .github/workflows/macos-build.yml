@@ -33,16 +33,23 @@ jobs:
       # Build Engine
       - name: Build Atom Engine
         run: xmake --yes
-
+      # Install the result files
+      - name: Install Nazara
+        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
+        run: xmake install -vo package
+      
       - name: "Set PACKAGE_NAME variable"
         if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
         run: echo "PACKAGE_NAME=atom_engine_macOS_${{ matrix.arch }}_${{ matrix.confs.mode }}.tar.gz" >> $GITHUB_ENV
         shell: bash
-
-      - name: "Set ASSETS_PACKAGE_NAME variable"
+        
+      - name: Archive result
+        uses: ihiroky/archive-action@v1
         if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
-        run: echo "PACKAGE_NAME=atom_engine_macOS_${{ matrix.arch }}_${{ matrix.confs.mode }}_assets.tar.gz" >> $GITHUB_ENV
-        shell: bash
+        with:
+          root_dir: package
+          file_path: ${{ env.PACKAGE_NAME }}
+          verbose: true
 
       # Nightly tags (for commits to main branch)
       - name: Upload binaries to release (main)
@@ -51,6 +58,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ env.PACKAGE_NAME }}
-          file_glob: true
+          asset_name: ${{ env.PACKAGE_NAME }}
           tag: "0.0.0-nightly"
           overwrite: true
