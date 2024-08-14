@@ -39,14 +39,6 @@ jobs:
         run: echo "PACKAGE_NAME=atom_engine_macOS_${{ matrix.arch }}_${{ matrix.confs.mode }}.tar.gz" >> $GITHUB_ENV
         shell: bash
 
-      - name: Archive result
-        uses: ihiroky/archive-action@v1
-        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
-        with:
-          root_dir: package
-          file_path: ${{ env.PACKAGE_NAME }}
-          verbose: true
-          
       # Nightly tags (for commits to main branch)
       - name: Upload binaries to release (main)
         uses: svenstaro/upload-release-action@v2
