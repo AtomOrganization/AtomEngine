@@ -1,1 +1,2 @@
-# AtomEngine
+# AtomEngine 
+[![macos build](https://github.com/AtomOrganization/AtomEngine/actions/workflows/macos-build.yml/badge.svg?branch=main)](https://github.com/AtomOrganization/AtomEngine/actions/workflows/macos-build.yml)

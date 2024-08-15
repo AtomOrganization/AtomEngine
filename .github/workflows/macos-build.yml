@@ -4,8 +4,10 @@ on:
   pull_request:
   push:
     branches:
-      - _main # rename
+      - main
+
 permissions: write-all
+
 jobs:
   build:
     strategy:
@@ -20,25 +22,27 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      # cache reloading
+      # Cache reloading
       - name: Get cache key
         id: cache_key
         run: echo "key=xmake-${{ runner.os }}-${{ matrix.arch }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT  
       
       - name: Checkout repository
         uses: actions/checkout@v4
+
       # Install xmake
       - name: Setup xmake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: branch@dev
           actions-cache-folder: .xmake-cache-W${{ steps.cache_key.outputs.key }}
-  
+
       # Build Engine
       - name: Build Atom Engine
         run: xmake --yes
+
       # Install the result files
-      - name: Install Nazara
+      - name: Install AtomEngine
         if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
         run: xmake install -vo package
       
