@@ -1,9 +1,9 @@
-name: macOS build
+name: macos build
 
 on:
   pull_request:
   push:
-    branch:
+    branches:
       - main
 permissions: write-all
 jobs:

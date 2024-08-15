@@ -1,4 +1,4 @@
-name: macOS build
+name: macos lib
 
 on:
   push:
