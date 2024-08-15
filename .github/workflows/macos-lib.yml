@@ -41,5 +41,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: AtomEngine-macOS-lib-${{ matrix.arch }}
-          path: lib/${{ matrix.arch }}/libAtomEngine.a
+          path: lib/${{ matrix.arch }}
           retention-days: 5  # Specify how many days the artifact should be kept
