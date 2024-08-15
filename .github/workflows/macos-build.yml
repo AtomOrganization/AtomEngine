@@ -3,6 +3,8 @@ name: macOS build
 on:
   pull_request:
   push:
+  branch:
+    - _main # rename 
 permissions: write-all
 jobs:
   build:
