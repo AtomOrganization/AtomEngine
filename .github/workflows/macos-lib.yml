@@ -1,0 +1,42 @@
+name: macOS build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: branch@dev
+
+      # Build AtomEngine
+      - name: Build Atom Engine
+        run: xmake --yes
+
+      # Create a directory to store the library
+      - name: Create library directory
+        run: mkdir -p lib
+
+      # Move the compiled library to the lib directory
+      - name: Move library
+        run: mv build/libAtomEngine.a lib/
+
+      # Upload the library as an artifact
+      - name: Upload Atom Engine Library
+        uses: actions/upload-artifact@v3
+        with:
+          name: AtomEngine-macOS-lib
+          path: lib/libAtomEngine.a
+          retention-days: 5  # Specify how many days the artifact should be kept

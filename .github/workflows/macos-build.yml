@@ -3,8 +3,8 @@ name: macOS build
 on:
   pull_request:
   push:
-  branch:
-    - _main # rename 
+    branch:
+      - main
 permissions: write-all
 jobs:
   build:
@@ -12,17 +12,19 @@ jobs:
       fail-fast: false
       matrix:
         os: [macOS-latest]
-        arch: [x86_64]
+        arch: [x86_64, arm64]
         confs:
         - { mode: debug, archive: yes }
+        - { mode: release, archive: yes }
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Get current date as package key
+      # cache reloading
+      - name: Get cache key
         id: cache_key
-        run: echo "key=$(date +'%W')" >> $GITHUB_OUTPUT
-        
+        run: echo "key=xmake-${{ runner.os }}-${{ matrix.arch }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT  
+      
       - name: Checkout repository
         uses: actions/checkout@v4
       # Install xmake
