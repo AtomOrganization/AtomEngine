@@ -9,7 +9,7 @@ target("AtomEngine")
     --add_ldflags("-mmacosx-version-min=14.5")
     add_files("src/*.cpp")
     add_includedirs("include","utils")
-    add_links("glfw3")
+    add_links("GLFW/glfw3")
     add_linkdirs("lib")
     add_frameworks("OpenGL")
     -- Download json.lua from AtomUtils, sample for integrate custom script
