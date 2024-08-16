@@ -1,6 +1,5 @@
 add_rules("mode.debug", "mode.release")
 set_project("AtomEngine")
-set_defaultmode("debug")
 
 add_requires("glfw", {configs = {shared = false}}) -- static
 add_requires("opengl", {configs = {shared = false}}) -- static
@@ -13,7 +12,8 @@ target("AtomEngine")
     add_files("src/*.cpp")
     add_includedirs("include")
     add_packages("glfw", "opengl")
-
+    add_ldflags("-framework OpenGL")
+    add_ldflags("-lglfw")
 -- add to package
 after_install(function (package)
     -- Copy headers include folder in package folder
