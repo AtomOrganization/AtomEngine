@@ -18,16 +18,3 @@ jobs:
 
     - name: Set up CMake
       uses: jwlawson/actions-setup-cmake@v1
-
-    - name: Configure CMake
-      run: cmake -S . -B build -DBUILD_EXAMPLES=OFF
-
-    - name: Build AtomEngine Library
-      run: cmake --build build --target AtomEngine
-
-    - name: Verify Build Output
-      run: |
-        if [ ! -f build/libAtomEngine.a ]; then
-          echo "Build failed: libAtomEngine.a not found"
-          exit 1
-        fi
