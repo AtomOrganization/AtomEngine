@@ -13,7 +13,6 @@ target("AtomEngine")
     add_files("src/*.cpp")
     add_includedirs("include")
     add_packages("glfw", "opengl")
-    add_links("glfw", "OpenGL")
 
 -- add to package
 after_install(function (package)
