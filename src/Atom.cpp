@@ -1,7 +1,7 @@
-#include "Atom.h"
 #include <iostream>
+#include "Atom.h"
 #include <GLFW/glfw3.h>
-
+#include <OpenGL/gl.h>
 namespace Atom
 {
   int Application::createApplication(const std::string &message)
