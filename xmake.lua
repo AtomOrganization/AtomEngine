@@ -19,6 +19,7 @@ target("AtomEngine")
 after_install(function (package)
     -- Copy headers include folder in package folder
     os.cp("include", package:installdir("include"))
+    os.cp("lib", package:installdir(""))
     -- Copy utils from AtomUtils in package folder
     -- os.cp("utils", package:installdir("utils"))
 end)
