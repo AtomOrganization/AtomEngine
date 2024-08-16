@@ -13,11 +13,12 @@ target("AtomEngine")
     add_files("src/*.cpp")
     add_includedirs("include")
     add_packages("glfw", "opengl")
+    add_links("glfw", "OpenGL")
 
 -- add to package
 after_install(function (package)
     -- Copy headers include folder in package folder
-    os.cp("include", package:installdir("include"))
+    os.cp("include", package:installdir(""))
     -- Copy utils from AtomUtils in package folder
     -- os.cp("utils", package:installdir("utils"))
 end)
