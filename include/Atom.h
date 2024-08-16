@@ -7,4 +7,9 @@ namespace Atom {
   public:
     static void printMessage(const std::string &message);
   };
+  class GLFW
+  {
+  public:
+    static int main();
+  };
 }
