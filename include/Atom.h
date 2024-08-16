@@ -5,11 +5,6 @@ namespace Atom {
   class Application
   {
   public:
-    static void printMessage(const std::string &message);
-  };
-  class GLFW
-  {
-  public:
-    static int main();
+    static int createApplication(const std::string &message);
   };
 }
