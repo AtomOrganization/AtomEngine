@@ -2,8 +2,8 @@ add_rules("mode.debug", "mode.release")
 set_project("AtomEngine")
 set_defaultmode("debug")
 
-add_requires("glfw")
-add_requires("opengl")
+add_requires("glfw", {configs = {shared = false}}) -- static
+add_requires("opengl", {configs = {shared = false}}) -- static
 
 target("AtomEngine")
     set_kind("static")
