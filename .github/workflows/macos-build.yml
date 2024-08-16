@@ -1,71 +1,33 @@
-name: macos build
+name: Build AtomEngine
 
 on:
-  pull_request:
   push:
     branches:
       - main
-
-permissions: write-all
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macOS-latest]
-        arch: [x86_64, arm64]
-        confs:
-        - { mode: debug, archive: yes }
-        - { mode: release, archive: yes }
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
-      # Cache reloading
-      - name: Get cache key
-        id: cache_key
-        run: echo "key=xmake-${{ runner.os }}-${{ matrix.arch }}-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT  
-      
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout source code
+      uses: actions/checkout@v3
 
-      # Install xmake
-      - name: Setup xmake
-        uses: xmake-io/github-action-setup-xmake@v1
-        with:
-          xmake-version: branch@dev
-          actions-cache-folder: .xmake-cache-W${{ steps.cache_key.outputs.key }}
+    - name: Set up CMake
+      uses: jwlawson/actions-setup-cmake@v1
 
-      # Build Engine
-      - name: Build Atom Engine
-        run: xmake --yes
+    - name: Configure CMake
+      run: cmake -S . -B build -DBUILD_EXAMPLES=OFF
 
-      # Install the result files
-      - name: Install AtomEngine
-        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
-        run: xmake install -vo package
-      
-      - name: "Set PACKAGE_NAME variable"
-        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
-        run: echo "PACKAGE_NAME=atom_engine_macOS_${{ matrix.arch }}_${{ matrix.confs.mode }}.tar.gz" >> $GITHUB_ENV
-        shell: bash
-        
-      - name: Archive result
-        uses: ihiroky/archive-action@v1
-        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
-        with:
-          root_dir: package
-          file_path: ${{ env.PACKAGE_NAME }}
-          verbose: true
+    - name: Build AtomEngine Library
+      run: cmake --build build --target AtomEngine
 
-      # Nightly tags (for commits to main branch)
-      - name: Upload binaries to release (main)
-        uses: svenstaro/upload-release-action@v2
-        if: ${{ (github.ref == 'refs/heads/main') && github.event_name == 'push' && matrix.confs.archive }}
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.PACKAGE_NAME }}
-          asset_name: ${{ env.PACKAGE_NAME }}
-          tag: "0.0.0-nightly"
-          overwrite: true
+    - name: Verify Build Output
+      run: |
+        if [ ! -f build/libAtomEngine.a ]; then
+          echo "Build failed: libAtomEngine.a not found"
+          exit 1
+        fi

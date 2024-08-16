@@ -6,8 +6,6 @@ bin-release/
 
 # Other files and folders
 .settings/
-ATOM.dSYM
-build
 
 # Executables
 *.swf
@@ -15,20 +13,11 @@ build
 *.ipa
 *.apk
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
-
-.xmake/
-# TODO: remove when find a good way for hide personal info
-.DS_Store
-
-#dll
-src/lib/*.dll
-src/lib/*.lib
-build
+# keep only build folder
+build/*
 # remove .vscode folder except .vscode/settings.json
 .vscode/*
 !.vscode/settings.json
+!.vscode/c_cpp_properties.json
 
-package
+.DS_Store
