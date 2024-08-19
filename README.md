@@ -6,6 +6,7 @@
 ```plaintext
 ProjectRoot/
 ├── src/                        # Code source principal du moteur
+│   ├── AtomEngine.cpp          # Point d'entrée du moteur
 │   ├── core/                   # Composants de base du moteur
 │   │   ├── application/        # Point d'entrée du moteur et boucle principale
 │   │   ├── window/             # Gestion des fenêtres
@@ -38,3 +39,8 @@ ProjectRoot/
 ├── build/                      # Dossier pour les fichiers de build (binaires, objets)
 ├── docs/                       # Documentation du projet
 └── tests/                      # Tests unitaires et d'intégration
+└── examples/                   # Examples d'intégration du moteur
+```
+## Commands
+    cmake -S . -B build
+    cmake --build build --clean-first

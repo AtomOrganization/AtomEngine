@@ -1,9 +1,9 @@
-#include <AtomEngine.h>
+  #include "AtomEngine.hpp"
 
 namespace Atom {
-  int initialize(std::string const message){
-    std::cout << "Atom Engine Initialize from " << message << std::endl;
-    OpenGLWrapper::initialize();
+  int Application::initialize(const std::string message){
+    std::cout << "AtomEngine initialized!" << std::endl;
+    std::cout << message << std::endl;
     return 0;
   }
 }
