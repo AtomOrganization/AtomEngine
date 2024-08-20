@@ -23,6 +23,19 @@ add_library(AtomEngine ${ATOM_ENGINE_SRC})
 # Specify include directories for AtomEngine
 target_include_directories(AtomEngine PUBLIC ${ATOM_ENGINE_INCLUDE})
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include 
+    ${CMAKE_SOURCE_DIR}/include/metal-cpp 
+    ${CMAKE_SOURCE_DIR}/include/metal-cpp-extensions
+)
+# Lien avec les frameworks nécessaires
+target_link_libraries(AtomEngine
+    "-framework Cocoa"
+    "-framework QuartzCore"
+    "-framework Metal"
+    "-framework MetalKit"
+    "-framework Foundation"
+)
 # Build examples
 if(BUILD_EXAMPLES)
   add_executable(HelloWorld ../examples/hello_world/hello_world.cpp)
